@@ -34,6 +34,23 @@ int main() {
   pa2m_afirmar(*(char *)lista_elemento_en_posicion(lista_pruebas, 3) == 'e', "El cuarto elemento corresponde a 'e'.");
   pa2m_afirmar(*(char *)lista_elemento_en_posicion(lista_pruebas, 4) == 'd', "El quinto elemento corresponde a 'd'.");
 
+  pa2m_nuevo_grupo("Pruebas quitar.");
+
+  pa2m_afirmar(*(char *)lista_quitar(lista_pruebas) == 'd', "El elemento quitado es 'd'.");
+  pa2m_afirmar(*(char *)lista_ultimo(lista_pruebas) == 'e', "El ultimo elemento es 'e'.");
+  pa2m_afirmar(lista_pruebas->cantidad == 4, "La cantidad de elementos es la esperada.");
+  pa2m_afirmar(*(char *)lista_quitar_de_posicion(lista_pruebas, 2) == 'c', "El elemento quitado es 'c'.");
+  pa2m_afirmar(lista_pruebas->cantidad == 3, "La cantidad de elementos es la esperada.");
+  pa2m_afirmar(*(char *)lista_quitar_de_posicion(lista_pruebas, 0) == 'a', "El elemento quitado es 'a'.");
+  pa2m_afirmar(lista_pruebas->cantidad == 2, "La cantidad de elementos es la esperada.");
+  // printf("%c",*(char *)lista_elemento_en_posicion(lista_pruebas, 0));
+  // printf("%c",*(char *)lista_elemento_en_posicion(lista_pruebas, 1));
+  // printf("%c",*(char *)lista_elemento_en_posicion(lista_pruebas, 2));
+  pa2m_afirmar(*(char *)lista_elemento_en_posicion(lista_pruebas, 1) == 'e', "El segundo elemento corresponde a 'e'.");
+  pa2m_afirmar(*(char *)lista_quitar(lista_pruebas) == 'e', "El elemento quitado es 'e'.");
+  // printf("%c",*(char *)lista_quitar(lista_pruebas));
+  pa2m_afirmar(lista_pruebas->cantidad == 1, "La cantidad de elementos es la esperada.");
+
   free(lista_pruebas);
   
   return pa2m_mostrar_reporte();

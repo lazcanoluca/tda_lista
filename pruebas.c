@@ -43,13 +43,12 @@ int main() {
   pa2m_afirmar(lista_pruebas->cantidad == 3, "La cantidad de elementos es la esperada.");
   pa2m_afirmar(*(char *)lista_quitar_de_posicion(lista_pruebas, 0) == 'a', "El elemento quitado es 'a'.");
   pa2m_afirmar(lista_pruebas->cantidad == 2, "La cantidad de elementos es la esperada.");
-  // printf("%c",*(char *)lista_elemento_en_posicion(lista_pruebas, 0));
-  // printf("%c",*(char *)lista_elemento_en_posicion(lista_pruebas, 1));
-  // printf("%c",*(char *)lista_elemento_en_posicion(lista_pruebas, 2));
   pa2m_afirmar(*(char *)lista_elemento_en_posicion(lista_pruebas, 1) == 'e', "El segundo elemento corresponde a 'e'.");
   pa2m_afirmar(*(char *)lista_quitar(lista_pruebas) == 'e', "El elemento quitado es 'e'.");
-  // printf("%c",*(char *)lista_quitar(lista_pruebas));
   pa2m_afirmar(lista_pruebas->cantidad == 1, "La cantidad de elementos es la esperada.");
+  pa2m_afirmar(*(char *)lista_quitar(lista_pruebas) == 'b', "El elemento quitado es 'b'.");
+  pa2m_afirmar(lista_pruebas->cantidad == 0, "La cantidad de elementos es la esperada.");
+  pa2m_afirmar(lista_vacia(lista_pruebas), "La lista quedó vacía.");
 
   free(lista_pruebas);
   

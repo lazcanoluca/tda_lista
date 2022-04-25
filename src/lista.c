@@ -34,13 +34,15 @@ lista_t *lista_crear()
 
 lista_t *lista_insertar(lista_t *lista, void *elemento)
 {
+	if (!lista) return NULL;
+
 	nodo_t *nuevo_nodo = malloc(sizeof(nodo_t));
-	if (nuevo_nodo == NULL) return NULL;
+	if (!nuevo_nodo) return NULL;
 
 	nuevo_nodo->siguiente = NULL;
 	nuevo_nodo->elemento = elemento;
 
-	if (lista->cantidad == 0) { // lista vacia
+	if (lista_vacia(lista)) { // lista vacia
 		lista->nodo_inicio = nuevo_nodo;
 	} else {
 		lista->nodo_fin->siguiente = nuevo_nodo;
@@ -52,11 +54,12 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 	return lista;
 }
 
-lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
-				    size_t posicion)
+lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento, size_t posicion)
 {
+	if(!lista) return NULL;
+
 	nodo_t *nuevo_nodo = malloc(sizeof(nodo_t));
-	if (nuevo_nodo == NULL) return NULL;
+	if (!nuevo_nodo) return NULL;
 
 	nuevo_nodo->elemento = elemento;
 
@@ -83,13 +86,21 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 
 void *lista_quitar(lista_t *lista)
 {
+	if (!lista || lista_vacia(lista)) return NULL;
+
 	nodo_t *aux = lista->nodo_fin;
 	void *elemento = aux->elemento;
 
-	nodo_t *penultimo_nodo = nodo_en_posicion(lista, lista->cantidad-2);
+	if (lista_tamanio(lista) == 1) {
+		lista->nodo_fin = NULL;
+		lista->nodo_inicio = NULL;
 
-	lista->nodo_fin = penultimo_nodo;
-	penultimo_nodo->siguiente = NULL;
+	} else {
+		nodo_t *penultimo_nodo = nodo_en_posicion(lista, lista_tamanio(lista)-2);
+
+		lista->nodo_fin = penultimo_nodo;
+		penultimo_nodo->siguiente = NULL;
+	}
 
 	lista->cantidad--;
 	
@@ -98,31 +109,38 @@ void *lista_quitar(lista_t *lista)
 
 void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 {
+	if (!lista || lista_vacia(lista)) return NULL;
+
 	nodo_t *aux;
 	void *elemento;
 
 	if (posicion == 0) {
 		aux = lista->nodo_inicio;
 		lista->nodo_inicio = lista->nodo_inicio->siguiente;
-		if (lista->cantidad == 1) lista->nodo_fin = NULL;
-		elemento = aux->elemento;
-	} else if (posicion >= lista->cantidad) {
-		nodo_t *nodo_anterior = nodo_en_posicion(lista, lista->cantidad-2);
+		if (lista_tamanio(lista) == 1) lista->nodo_fin = NULL;
+	} else if (posicion >= lista_tamanio(lista)) {
+		return lista_quitar(lista);
 
-		aux = lista->nodo_fin;
-		elemento = aux->elemento;
+		// if (lista_tamanio(lista) == 1) {
+		// 	lista->nodo_inicio = NULL;
+		// 	lista->nodo_fin = NULL;
+		// } else {
+		// 	nodo_t *nodo_anterior = nodo_en_posicion(lista, lista->cantidad-2);
+		// 	lista->nodo_fin = nodo_anterior;
+		// }
 
-		lista->nodo_fin = nodo_anterior;
-		lista->nodo_fin->siguiente = NULL;
+		// aux = lista->nodo_fin;
+
+		// lista->nodo_fin->siguiente = NULL;
 	} else {
 		nodo_t *nodo_anterior = nodo_en_posicion(lista, posicion-1);
 
 		aux = nodo_anterior->siguiente;
-		elemento = aux->elemento;
 
 		nodo_anterior->siguiente = aux->siguiente;
 	}
 
+	elemento = aux->elemento;
 	lista->cantidad--;
 
 	return (elemento != NULL) ? elemento : NULL;
@@ -130,18 +148,10 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 
 void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 {
-	if (!lista) {
-		printf("Can't retrieve element from empty list.\n");
-		return NULL;
-	}
-
-	if (posicion >= lista->cantidad) {
-		//printf("Can't retrieve element from position higher than list amount.\n");
-		return NULL;
-	}
+	if (!lista || lista_vacia(lista) || posicion >= lista_tamanio(lista)) return NULL;
 
 	if (posicion == 0) return lista_primero(lista);
-	if (posicion == lista->cantidad-1) return lista_ultimo(lista);
+	if (posicion == lista_tamanio(lista)-1) return lista_ultimo(lista);
 
 	nodo_t *nodo = nodo_en_posicion(lista, posicion);
 	return nodo->elemento;

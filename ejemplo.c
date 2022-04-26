@@ -140,7 +140,6 @@ void probar_operaciones_pila()
 	for (int i = 0; algo[i] != 0; i++) {
 		printf("Apilo %c\n", algo[i]);
 		pila_apilar(pila, &algo[i]);
-		printf("%i", pila);
 	}
 
 	printf("\nDesapilo y muestro los elementos apilados: ");

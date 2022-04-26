@@ -17,7 +17,7 @@ void *pila_desapilar(pila_t *pila)
 
 void *pila_tope(pila_t *pila)
 {
-	return (pila_t *)lista_elemento_en_posicion((lista_t *)pila, 0);
+	return (pila_t *)lista_primero((lista_t *)pila);
 }
 
 size_t pila_tamanio(pila_t *pila)

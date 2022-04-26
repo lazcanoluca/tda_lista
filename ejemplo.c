@@ -112,25 +112,25 @@ void probar_operaciones_destructor_lista()
 	lista_destruir_todo(lista, free);
 }
 
-void probar_operaciones_cola()
-{
-	cola_t *cola = cola_crear();
+// void probar_operaciones_cola()
+// {
+// 	cola_t *cola = cola_crear();
 
-	int numeros[] = { 1, 2, 3, 4, 5, 6 };
+// 	int numeros[] = { 1, 2, 3, 4, 5, 6 };
 
-	for (size_t i = 0; i < sizeof(numeros) / sizeof(int); i++) {
-		printf("Encolo %i\n", numeros[i]);
-		cola_encolar(cola, &numeros[i]);
-	}
+// 	for (size_t i = 0; i < sizeof(numeros) / sizeof(int); i++) {
+// 		printf("Encolo %i\n", numeros[i]);
+// 		cola_encolar(cola, &numeros[i]);
+// 	}
 
-	printf("\nDesencolo los numeros y los muestro: ");
-	while (!cola_vacia(cola)) {
-		printf("%i ", *(int *)cola_frente(cola));
-		cola_desencolar(cola);
-	}
-	printf("\n");
-	cola_destruir(cola);
-}
+// 	printf("\nDesencolo los numeros y los muestro: ");
+// 	while (!cola_vacia(cola)) {
+// 		printf("%i ", *(int *)cola_frente(cola));
+// 		cola_desencolar(cola);
+// 	}
+// 	printf("\n");
+// 	cola_destruir(cola);
+// }
 
 void probar_operaciones_pila()
 {
@@ -140,6 +140,7 @@ void probar_operaciones_pila()
 	for (int i = 0; algo[i] != 0; i++) {
 		printf("Apilo %c\n", algo[i]);
 		pila_apilar(pila, &algo[i]);
+		printf("%i", pila);
 	}
 
 	printf("\nDesapilo y muestro los elementos apilados: ");
@@ -153,15 +154,15 @@ void probar_operaciones_pila()
 
 int main()
 {
-	printf("Ejemplo del uso de lista\n");
-	probar_operaciones_lista();
+	// printf("Ejemplo del uso de lista\n");
+	// probar_operaciones_lista();
 
-	printf("\nEjemplo del destructor de lista (no debería perder memoria)\n");
-	probar_operaciones_destructor_lista();
+	// printf("\nEjemplo del destructor de lista (no debería perder memoria)\n");
+	// probar_operaciones_destructor_lista();
 
 
-	printf("\nEjemplo del uso de cola\n");
-	probar_operaciones_cola();
+	// printf("\nEjemplo del uso de cola\n");
+	// probar_operaciones_cola();
 
 	printf("\nEjemplo del uso de pila\n");
 	probar_operaciones_pila();

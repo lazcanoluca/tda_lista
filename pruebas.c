@@ -16,8 +16,6 @@ int main() {
   pa2m_afirmar((lista_pruebas = lista_crear()) != NULL, "Se pudo crear una lista.");
   pa2m_afirmar(lista_pruebas->cantidad == 0, "La cantidad inicial es 0.");
 
-  pa2m_nuevo_grupo("Pruebas iterador.");
-
   pa2m_nuevo_grupo("Pruebas inserción en lista.");
   pa2m_afirmar(lista_insertar(lista_pruebas, &a) != NULL, "Se pudo insertar un elemento en una lista vacía.");
   pa2m_afirmar(lista_insertar(lista_pruebas, &b) != NULL, "Se pudo insertar un elemento en una lista poblada.");
@@ -25,6 +23,12 @@ int main() {
   pa2m_afirmar(lista_insertar(lista_pruebas, &d) != NULL, "Se pudo insertar un elemento en una lista poblada.");
   pa2m_afirmar(lista_insertar_en_posicion(lista_pruebas, &e, 3) != NULL, "Se pudo insertar un elemento al medio de una lista poblada.");
   pa2m_afirmar(lista_pruebas->cantidad == 5, "La cantidad de elementos es la esperada.");
+
+  pa2m_nuevo_grupo("Pruebas iterador.");
+  lista_iterador_t *iterador_pruebas = lista_iterador_crear(lista_pruebas);
+  pa2m_afirmar(iterador_pruebas != NULL, "Se crea el iterador.");
+  pa2m_afirmar(*(char *)lista_iterador_elemento_actual(iterador_pruebas) == 'a', "El iterador creado apunta al primer elemento.");
+  lista_iterador_destruir(iterador_pruebas);
 
   pa2m_nuevo_grupo("Pruebas obtención elementos.");
   pa2m_afirmar(lista_elemento_en_posicion(lista_pruebas, lista_pruebas->cantidad + 1) == NULL, "No es posible acceder a un elemento fuera de la lista.");
@@ -35,7 +39,6 @@ int main() {
   pa2m_afirmar(*(char *)lista_elemento_en_posicion(lista_pruebas, 4) == 'd', "El quinto elemento corresponde a 'd'.");
 
   pa2m_nuevo_grupo("Pruebas quitar.");
-
   pa2m_afirmar(*(char *)lista_quitar(lista_pruebas) == 'd', "El elemento quitado es 'd'.");
   pa2m_afirmar(*(char *)lista_ultimo(lista_pruebas) == 'e', "El ultimo elemento es 'e'.");
   pa2m_afirmar(lista_pruebas->cantidad == 4, "La cantidad de elementos es la esperada.");
@@ -50,7 +53,7 @@ int main() {
   pa2m_afirmar(lista_pruebas->cantidad == 0, "La cantidad de elementos es la esperada.");
   pa2m_afirmar(lista_vacia(lista_pruebas), "La lista quedó vacía.");
 
-  free(lista_pruebas);
+  lista_destruir(lista_pruebas);
   
   return pa2m_mostrar_reporte();
 }

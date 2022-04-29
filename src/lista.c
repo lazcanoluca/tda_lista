@@ -314,7 +314,7 @@ lista_iterador_t *lista_iterador_crear(lista_t *lista)
 
 bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
 {
-	if (!iterador || lista_vacia(iterador->lista) /*|| !iterador->corriente*/) return false;
+	if (!iterador || lista_vacia(iterador->lista) || !iterador->corriente) return false;
 	// return !iterador->corriente->siguiente ? false : true;
 	return true;
 }

@@ -209,22 +209,19 @@ void lista_destruir(lista_t *lista)
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
-	if (!lista || !funcion) return;
+	if(!lista) return;
 
-	if (lista_vacia(lista)) {
-		lista_destruir(lista);
-		return;
+	if(funcion) {
+		nodo_t *aux = lista->nodo_inicio;
+		int i = 0;
+
+		while(i < lista_tamanio(lista)){
+			funcion(aux->elemento);
+			aux = aux->siguiente;
+			i++;
+		}
 	}
 
-	lista_iterador_t *iterador = lista_iterador_crear(lista);
-	if (!iterador) return;
-
-	for (int i = 0; i < lista_tamanio(lista); i++) {
-		funcion(lista_iterador_elemento_actual(iterador));
-		lista_iterador_avanzar(iterador);
-	}
-
-	lista_iterador_destruir(iterador);
 	lista_destruir(lista);
 }
 

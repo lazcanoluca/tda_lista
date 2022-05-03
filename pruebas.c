@@ -26,6 +26,7 @@ void creo_una_lista_y_devuelve_una_lista_vacia()
 	lista_destruir(lista);
 
 }
+
 void inserto_elementos_en_una_lista()
 
 {
@@ -144,16 +145,82 @@ void pruebas_muchos_elementos()
 
 	pa2m_afirmar(lista_vacia(lista), "La lista quedó vacía.");
 
-	for (int i = 0; i < 100000; i++) {
-		lista_insertar(lista, &i);
-	}
-
-	pa2m_afirmar(lista_tamanio(lista) == 100000, "Se puede crear una lista con 100k elementos.");
-
 	lista_destruir(lista);
 
-
 }
+
+void pruebas_de_iterador_externo()
+{
+	lista_t *lista = lista_crear();
+	lista_iterador_t *iterador_vacio = lista_iterador_crear(lista);
+	char a = 'a', b = 'b', c = 'c', d = 'd', e = 'e';
+
+	pa2m_afirmar(lista_iterador_crear(NULL) == NULL, "No se puede crear un iterador con una lista inexistente.");
+	pa2m_afirmar(iterador_vacio != NULL, "Se pudo crear un iterador con una lista vacía.");
+	pa2m_afirmar(lista_vacia(iterador_vacio->lista) == true, "La lista está vacía.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador_vacio) == false, "El iterador de la lista vacía no tiene siguiente.");
+	pa2m_afirmar(lista_iterador_elemento_actual(iterador_vacio) == NULL, "El elemento actual de un iterador con lista vacía es NULL.");
+	pa2m_afirmar(lista_iterador_avanzar(iterador_vacio) == false, "El iterador con lista vacía no puede avanzar.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador_vacio) == false, "El iterador de la lista vacía sigue sin tener siguiente.");
+	pa2m_afirmar(lista_iterador_elemento_actual(iterador_vacio) == NULL, "El elemento actual de un iterador con lista vacía sigue siendo NULL.");
+
+	lista_iterador_destruir(iterador_vacio);
+
+	// pa2m_afirmar(iterador_vacio == NULL, "El iterador ya no existe.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(NULL) == false, "Un iterador inexistente no tiene siguiente.");
+	pa2m_afirmar(lista_iterador_elemento_actual(NULL) == NULL, "El elemento actual de un iterador inexistente es NULL");
+	pa2m_afirmar(lista_iterador_avanzar(NULL) == false, "No se puede avanzar un iterador inexistente.");
+
+	lista_insertar(lista, &a);
+	lista_insertar(lista, &b);
+	lista_insertar(lista, &c);
+	lista_insertar(lista, &d);
+	lista_insertar(lista, &e);
+
+	lista_iterador_t *iterador_lleno = lista_iterador_crear(lista);
+	pa2m_afirmar(iterador_lleno != NULL, "Se pudo crear un iterador con una lista poblada.");
+	pa2m_afirmar(lista_tamanio(iterador_lleno->lista) == 5, "La lista del iterador tiene 5 elementos.");
+	pa2m_afirmar(*(char *)lista_iterador_elemento_actual(iterador_lleno) == 'a', "El iterador apunta al primer elemento, 0.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador_lleno), "El iterador tiene siguiente.");
+	pa2m_afirmar(lista_iterador_avanzar(iterador_lleno), "El iterador pudo avanzar.");
+	pa2m_afirmar(*(char *)lista_iterador_elemento_actual(iterador_lleno) == 'b', "El iterador apunta al elemento 1.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador_lleno), "El iterador tiene siguiente.");
+	pa2m_afirmar(lista_iterador_avanzar(iterador_lleno), "El iterador pudo avanzar.");
+	pa2m_afirmar(*(char *)lista_iterador_elemento_actual(iterador_lleno) == 'c', "El iterador apunta al elemento 2.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador_lleno), "El iterador tiene siguiente.");
+	pa2m_afirmar(lista_iterador_avanzar(iterador_lleno), "El iterador pudo avanzar.");
+	pa2m_afirmar(*(char *)lista_iterador_elemento_actual(iterador_lleno) == 'd', "El iterador apunta al elemento 3.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador_lleno), "El iterador tiene siguiente.");
+	pa2m_afirmar(lista_iterador_avanzar(iterador_lleno), "El iterador pudo avanzar.");
+	pa2m_afirmar(*(char *)lista_iterador_elemento_actual(iterador_lleno) == 'e', "El iterador apunta al último elemento, 4.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador_lleno) == true, "El iterador tiene siguiente.");
+	pa2m_afirmar(lista_iterador_avanzar(iterador_lleno) == false, "El iterador ya no puede avanzar.");
+	pa2m_afirmar(lista_iterador_elemento_actual(iterador_lleno) == NULL, "El iterador ahora apunta a NULL.");
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador_lleno) == false, "El iterador no tiene siguiente.");
+	pa2m_afirmar(lista_iterador_avanzar(iterador_lleno) == false, "El iterador no pudo avanzar.");
+}
+
+void pruebas_de_iterador_interno()
+{
+	lista_t *lista = lista_crear();
+	char a = 'a', b = 'b', c = 'c', d = 'd', e = 'e';
+
+	lista_insertar(lista, &a);
+	lista_insertar(lista, &b);
+	lista_insertar(lista, &c);
+	lista_insertar(lista, &d);
+	lista_insertar(lista, &e);
+
+	pa2m_afirmar(lista_con_cada_elemento(lista, NULL, &d), "No se puede iterar sin una función");
+
+	lista_destruir(lista);
+}
+
+void pruebas_de_busqueda()
+{
+	// pa2m_afirmar(lista_buscar_elemento(NULL, NULL, NULL), "Buscar un elemento ")
+}
+
 
 int main() {
   // pa2m_nuevo_grupo("Pruebas y mas pruebas");
@@ -207,6 +274,7 @@ int main() {
   inserto_elementos_en_una_lista();
   quito_elementos_de_una_lista();
   pruebas_muchos_elementos();
+  pruebas_de_iterador_externo();
   
   return pa2m_mostrar_reporte();
 }

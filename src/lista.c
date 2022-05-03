@@ -83,7 +83,7 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento, size_t posic
 	if (posicion == 0) {
 		nuevo_nodo->siguiente = lista->nodo_inicio;
 		lista->nodo_inicio = nuevo_nodo;
-		if (lista_vacia(lista)) lista->nodo_fin = nuevo_nodo;
+		// if (lista_vacia(lista)) lista->nodo_fin = nuevo_nodo;
 	} else {
 		nodo_t *nodo_anterior = nodo_en_posicion(lista, posicion-1);
 		nuevo_nodo->siguiente = nodo_anterior->siguiente;
@@ -130,9 +130,10 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 	void *elemento;
 
 	if (posicion == 0) {
-		nodo_a_quitar = lista->nodo_inicio;
+		nodo_a_quitar = lista->nodo_inicio; /* ????? */
 		nodo_t *nuevo_inicio = lista->nodo_inicio->siguiente;
 		lista->nodo_inicio = nuevo_inicio;
+		lista->nodo_inicio = lista->nodo_inicio->siguiente;
 		if (lista_tamanio(lista) == 1) lista->nodo_fin = NULL;
 	} else {
 		nodo_t *nodo_anterior = nodo_en_posicion(lista, posicion-1);
